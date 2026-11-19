@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Administración DNS</title>
-
+    <title><?= htmlspecialchars($tituloPagina ?? 'Administración DNS', ENT_QUOTES, 'UTF-8') ?></title>
     <style>
         * {
             box-sizing: border-box;
@@ -148,7 +147,17 @@ a:hover {
         td button:hover {
             background: #8f1c28;
         }
-
+        
+        /* Pie de página compartido (Views/footer.php) */
+        body > footer.app-footer {
+            width: min(100%, 1000px);
+            margin: 40px auto 0;
+            padding-top: 18px;
+            border-top: 1px solid #dbe4ee;
+            color: #64748b;
+            font-size: 13px;
+            text-align: center;
+        }
         @media (max-width: 700px) {
             body {
                 padding: 24px 12px;
@@ -160,5 +169,8 @@ a:hover {
             }
         }
     </style>
+        <?php foreach (($cssExtra ?? []) as $hoja): ?>
+    <link rel="stylesheet" href="<?= htmlspecialchars((string) $hoja, ENT_QUOTES, 'UTF-8') ?>">
+    <?php endforeach; ?>
 </head>
 <body>

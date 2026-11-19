@@ -1,0 +1,45 @@
+/* Se carga después del <style> del header, por eso las clases sobrescriben los estilos globales de a / button. */
+.dash { width: min(100%, 1000px); margin: 0 auto; }
+
+/* Navbar */
+.dash-navbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-bottom: 24px; padding: 12px 20px; background: #fff; border: 1px solid #dbe4ee; border-radius: 12px; }
+.dash-brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: #12304a; }
+.dash-brand-mark { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 8px; background: #e8f2f3; color: #087f75; font-size: 20px; line-height: 1; }
+.dash-links { display: flex; flex: 1; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.dash-link, .dash-link:hover { padding: 7px 12px; background: transparent; color: #475569; font-weight: 600; }
+.dash-link:hover { background: #f1f5f9; color: #12304a; }
+.dash-link.is-active, .dash-link.is-active:hover { background: #e8f2f3; color: #087f75; }
+.dash-logout-form { margin: 0; }
+.dash-logout { min-height: 36px; padding: 6px 14px; background: #fff; border: 1px solid #dbe4ee; color: #334155; }
+.dash-logout:hover { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+
+/* Banner */
+.dash-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 24px; padding: 26px 28px; border-radius: 14px; background: linear-gradient(135deg, #12304a 0%, #0b5d63 60%, #087f75 100%); color: #fff; }
+.dash-banner h1 { margin: 0 0 4px; font-size: 24px; }
+.dash-banner p { margin: 0; color: rgba(255,255,255,.85); font-size: 14px; }
+.dash-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; background: rgba(255,255,255,.15); font-size: 13px; font-weight: 600; }
+.dash-pill-dot { width: 8px; height: 8px; border-radius: 50%; background: #34d399; }
+
+.dash-section-title { margin: 28px 0 14px; font-size: 17px; }
+
+/* Tarjetas de módulos */
+.dash-modules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.dash-module, .dash-module:hover { display: block; padding: 20px; background: #fff; border: 1px solid #dbe4ee; border-radius: 12px; color: #1e293b; font-weight: 400; }
+.dash-module:hover { border-color: #16877e; box-shadow: 0 8px 20px rgba(15,23,42,.08); transform: translateY(-2px); }
+.dash-module h3 { margin: 0 0 6px; font-size: 16px; }
+.dash-module p { margin: 0; color: #64748b; font-size: 14px; }
+
+/* Datos de sesión */
+.dash-card { padding: 22px 24px; background: #fff; border: 1px solid #dbe4ee; border-radius: 12px; }
+.dash-card-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0; }
+.dash-card-head h2 { margin: 0; font-size: 17px; }
+.dash-card-head span { color: #64748b; font-size: 13px; }
+.dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.dash-item { padding: 12px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; }
+.dash-label { display: block; margin-bottom: 4px; color: #64748b; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.dash-value { font-weight: 600; word-break: break-word; }
+.dash-badge { display: inline-block; padding: 2px 10px; border-radius: 999px; background: #e8f2f3; color: #087f75; font-size: 13px; font-weight: 600; }
+
+@media (max-width: 700px) { .dash-banner, .dash-card { padding: 20px; } }
+.dash-link { display: inline-block; border-radius: 7px; text-decoration: none; }
+.dash-logout { border-radius: 7px; font: inherit; font-weight: 600; cursor: pointer; }
