@@ -1,4 +1,8 @@
 <?php include __DIR__ . '/header.php'; ?>
+<div class="dash">
+    <?php include __DIR__ . '/partials/navbar.php'; ?>
+</div>
+
 <h2>Registros DNS  clinicasanjose.local</h2>
 
 <form method="get">
@@ -59,4 +63,5 @@
   </select>
   <button>Guardar</button>
 </form>
+
 <?php include __DIR__ . '/footer.php'; ?>

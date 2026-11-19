@@ -3,7 +3,12 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/Config/auth.php';
 
+// Protección: sin sesión válida se redirige a login.php y no se ejecuta nada más.
 require_auth();
+
+// Evita que el navegador muestre una copia en caché del panel tras cerrar sesión.
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
 $usuarioId = (int) ($_SESSION['usuario_id'] ?? 0);
 $nombreUsuario = is_string($_SESSION['usuario_nombre'] ?? null) ? $_SESSION['usuario_nombre'] : 'Administrador TI';
@@ -21,7 +26,62 @@ $ultimaActividad = isset($_SESSION['ultima_actividad']) && is_int($_SESSION['ult
     : 'N/D';
 
 $csrfToken = get_csrf_token();
+
+// Datos que usan los componentes comunes (header, navbar)
+$tituloPagina = 'Panel de Control | ClinicAdmin';
+$cssExtra = ['assets/css/dashboard.css'];
+$paginaActiva = 'inicio';
+$baseUrl = '';
+
+include __DIR__ . '/Views/header.php';
 ?>
+<div class="dash">
+
+    
+    <?php include __DIR__ . '/Views/partials/navbar.php'; ?>
+
+    <section class="dash-banner">
+        <div>
+            <h1>Bienvenido, <?= e($nombreUsuario) ?></h1>
+            <p>Panel de control de la infraestructura médica.</p>
+        </div>
+        <span class="dash-pill">
+            <span class="dash-pill-dot" aria-hidden="true"></span>
+            Sesión activa
+        </span>
+    </section>
+
+    <h2 class="dash-section-title">Módulos</h2>
+    <section class="dash-modules" aria-label="Módulos disponibles">
+        <a class="dash-module" href="Controllers/Controllers_servidores.php">
+            <h3>Estado de servidores</h3>
+            <p>Monitoreo de servicios (web, base de datos, SSH, correo) mediante sockets.</p>
+        </a>
+        <a class="dash-module" href="Controllers/Controllers_dns.php">
+            <h3>Registros DNS</h3>
+            <p>Alta, edición y eliminación de registros A, CNAME y MX.</p>
+        </a>
+    </section>
+
+    <h2 class="dash-section-title">Sesión actual</h2>
+    <section class="dash-card" aria-label="Estado de la sesión">
+        <div class="dash-card-head">
+            <h2>Datos del usuario autenticado</h2>
+            <span>Información de la sesión activa</span>
+        </div>
+
+        <div class="dash-grid">
+            <div class="dash-item"><span class="dash-label">ID de usuario</span><span class="dash-value">#<?= e((string) $usuarioId) ?></span></div>
+            <div class="dash-item"><span class="dash-label">Usuario</span><span class="dash-value"><?= e($username) ?></span></div>
+            <div class="dash-item"><span class="dash-label">Correo electrónico</span><span class="dash-value"><?= e($email) ?></span></div>
+            <div class="dash-item"><span class="dash-label">Rol asignado</span><span class="dash-value"><span class="dash-badge"><?= e($rol) ?></span></span></div>
+            <div class="dash-item"><span class="dash-label">Inicio de sesión</span><span class="dash-value"><?= e($inicioSesion) ?></span></div>
+            <div class="dash-item"><span class="dash-label">Última actividad</span><span class="dash-value"><?= e($ultimaActividad) ?></span></div>
+            <div class="dash-item"><span class="dash-label">Dirección IP</span><span class="dash-value"><?= e($ipSesion) ?></span></div>
+        </div>
+    </section>
+</div>
+<?php include __DIR__ . '/Views/footer.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -276,95 +336,4 @@ $csrfToken = get_csrf_token();
         }
     </style>
 </head>
-<body>
-    <header class="navbar">
-        <div class="navbar-inner">
-            <div class="brand-mark">
-                <span class="brand-plus-box" aria-hidden="true">+</span>
-                <span>ClinicAdmin</span>
-            </div>
-
-            <form action="logout.php" method="POST">
-                <input type="hidden" name="csrf_token" value="<?= e($csrfToken) ?>">
-                <button type="submit" class="btn-logout">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/>
-                        <line x1="21" y1="12" x2="9" y2="12"/>
-                    </svg>
-                    <span>Cerrar sesión</span>
-                </button>
-            </form>
-        </div>
-    </header>
-
-    <main class="main-content">
-        <section class="welcome-banner">
-            <div>
-                <h1>Bienvenido, <?= e($nombreUsuario) ?></h1>
-                <p>Panel de control protegido mediante sesión autenticada.</p>
-            </div>
-            <div class="status-pill">
-                <span class="status-dot" aria-hidden="true"></span>
-                <span>Sesión activa</span>
-            </div>
-        </section>
-
-        <section class="session-card" aria-label="Estado de la sesión">
-            <div class="session-card-header">
-                <div>
-                    <h2>Estado de la sesión ($_SESSION)</h2>
-                    <span>Información verificada de la sesión actual del Administrador de TI</span>
-                </div>
-                <span class="state-badge">Autenticado</span>
-            </div>
-
-            <div class="session-grid">
-                <div class="session-item">
-                    <span class="session-label">ID de usuario</span>
-                    <span class="session-value">#<?= e((string) $usuarioId) ?></span>
-                </div>
-
-                <div class="session-item">
-                    <span class="session-label">Usuario</span>
-                    <span class="session-value"><?= e($username) ?></span>
-                </div>
-
-                <div class="session-item">
-                    <span class="session-label">Correo electrónico</span>
-                    <span class="session-value"><?= e($email) ?></span>
-                </div>
-
-                <div class="session-item">
-                    <span class="session-label">Rol asignado</span>
-                    <span class="session-value"><span class="role-badge"><?= e($rol) ?></span></span>
-                </div>
-
-                <div class="session-item">
-                    <span class="session-label">Inicio de sesión</span>
-                    <span class="session-value"><?= e($inicioSesion) ?></span>
-                </div>
-
-                <div class="session-item">
-                    <span class="session-label">Última actividad</span>
-                    <span class="session-value"><?= e($ultimaActividad) ?></span>
-                </div>
-
-                <div class="session-item">
-                    <span class="session-label">Dirección IP</span>
-                    <span class="session-value"><?= e($ipSesion) ?></span>
-                </div>
-
-                <div class="session-item">
-                    <span class="session-label">Identificador de sesión</span>
-                    <span class="session-value"><?= e(substr((string) session_id(), 0, 12)) ?>...</span>
-                </div>
-            </div>
-        </section>
-
-        <footer class="page-footer">
-            Clínica Don Juan · Cochabamba, Bolivia · Conexión segura
-        </footer>
-    </main>
-</body>
 </html>

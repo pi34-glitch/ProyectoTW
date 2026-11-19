@@ -6,7 +6,10 @@ $resumenServidores = $resumenServidores ?? ['total' => 0, 'activos' => 0, 'caido
 $modoDemoServidores = $modoDemoServidores ?? false;
 $fechaConsulta = $fechaConsulta ?? date('d/m/Y H:i:s');
 ?>
+
+
 <section class="servidores-modulo" aria-label="Estado de servidores y servicios">
+    
     <div class="servidores-header">
         <div class="servidores-title-group">
             <h1>Estado de Servidores y Servicios</h1>

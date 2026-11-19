@@ -1,12 +1,17 @@
 <?php
 
 require_once __DIR__ . '/../Config/database.php';
-/*require_once __DIR__ . '/../Config/auth.php'; 
-start_secure_session();
-if (!isset($_SESSION['usuario_id'])) {
-    header('Location: login.php');
+require_once __DIR__ . '/../Config/auth.php';
+if (!is_authenticated()) {
+    header('Location: ../login.php');   // ../ porque estamos dentro de /Controllers
     exit;
-}*/
+}
+$csrfToken     = get_csrf_token();
+$nombreUsuario = is_string($_SESSION['usuario_nombre'] ?? null) ? $_SESSION['usuario_nombre'] : 'Administrador TI';
+$tituloPagina  = 'Registros DNS | ClinicAdmin';
+$cssExtra      = ['../assets/css/dashboard.css'];
+$paginaActiva  = 'dns';
+$baseUrl       = '../';
 
 $pdo = get_db_connection();
 $errores = [];
