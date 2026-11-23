@@ -61,6 +61,10 @@ include __DIR__ . '/Views/header.php';
             <h3>Registros DNS</h3>
             <p>Alta, edición y eliminación de registros A, CNAME y MX.</p>
         </a>
+        <a class="dash-module" href="Controllers/Controllers_historial.php">
+            <h3>Historial y trazabilidad</h3>
+            <p>Consulta de eventos de monitoreo, incidentes, alertas y comandos ejecutados.</p>
+        </a>
     </section>
 
     <h2 class="dash-section-title">Sesión actual</h2>

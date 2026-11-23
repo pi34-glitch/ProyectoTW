@@ -16,6 +16,7 @@
         'inicio'     => ['Inicio', 'dashboard.php'],
         'servidores' => ['Servidores', 'Controllers/Controllers_servidores.php'],
         'dns'        => ['DNS', 'Controllers/Controllers_dns.php'],
+        'historial'  => ['Historial', 'Controllers/Controllers_historial.php'],
     ];
 ?>
 <nav class="dash-navbar" aria-label="Navegación principal">
