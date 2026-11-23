@@ -122,10 +122,60 @@ function establish_user_session(array $user): void
     $_SESSION['usuario_rol'] = (string) $user['rol'];
     $_SESSION['inicio_sesion'] = time();
     $_SESSION['ultima_actividad'] = time();
-    $_SESSION['ip_sesion'] = $_SERVER['REMOTE_ADDR'] ?? 'desconocida';
+    $infoPtr = obtener_cliente_ptr();
+    $_SESSION['ip_sesion'] = $infoPtr['ip'];
+    $_SESSION['host_ptr_sesion'] = $infoPtr['host'];
 
     // Rotar el token CSRF tras autenticarse
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+/**
+ * HU-02: Obtiene la dirección IP y el nombre de host del cliente mediante
+ * resolución DNS inversa (PTR - gethostbyaddr) para auditoría de seguridad.
+ *
+ * @return array{ip: string, host: string, etiqueta: string}
+ */
+function obtener_cliente_ptr(): array
+{
+    $ip = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] !== ''
+        ? $_SERVER['REMOTE_ADDR']
+        : '127.0.0.1';
+
+    if (
+        session_status() === PHP_SESSION_ACTIVE
+        && !empty($_SESSION['host_ptr_sesion'])
+        && is_string($_SESSION['host_ptr_sesion'])
+        && ($_SESSION['ip_sesion'] ?? '') === $ip
+    ) {
+        $hostCache = $_SESSION['host_ptr_sesion'];
+        return [
+            'ip'       => $ip,
+            'host'     => $hostCache,
+            'etiqueta' => ($hostCache !== $ip) ? sprintf('%s (%s)', $hostCache, $ip) : $ip,
+        ];
+    }
+
+    $hostResuelto = $ip;
+    if (filter_var($ip, FILTER_VALIDATE_IP) !== false) {
+        $ptr = @gethostbyaddr($ip);
+        if (is_string($ptr) && trim($ptr) !== '' && $ptr !== $ip) {
+            $hostResuelto = trim($ptr);
+        } elseif ($ip === '127.0.0.1' || $ip === '::1') {
+            $hostResuelto = 'admin.clinicasanjose.lan';
+        }
+    }
+
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        $_SESSION['ip_sesion'] = $ip;
+        $_SESSION['host_ptr_sesion'] = $hostResuelto;
+    }
+
+    return [
+        'ip'       => $ip,
+        'host'     => $hostResuelto,
+        'etiqueta' => ($hostResuelto !== $ip) ? sprintf('%s (%s)', $hostResuelto, $ip) : $ip,
+    ];
 }
 
 /**

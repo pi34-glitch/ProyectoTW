@@ -1,19 +1,15 @@
 <?php
 declare(strict_types=1);
+
+$tituloPagina = $tituloPagina ?? 'Estado de Servidores y Nodos | ClinicAdmin';
+$cssExtra = ['../assets/css/dashboard.css', '../assets/css/servidores.css'];
+$paginaActiva = 'servidores';
+$baseUrl = $baseUrl ?? '../';
+
+require __DIR__ . '/header.php';
+require __DIR__ . '/partials/navbar.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClinicAdmin - Estado de Servidores (HU-03)</title>
-    <link rel="stylesheet" href="../assets/css/servidores.css">
-    <link rel="stylesheet" href="../assets/css/dashboard.css">
-</head>
-<body>
-    <main class="servidores-page">
-        <?php require __DIR__ . '/partials/navbar.php'; ?>
-        <?php require __DIR__ . '/partials/tarjetas_servidores.php'; ?>
-    </main>
-</body>
-</html>
+<main class="servidores-page">
+    <?php require __DIR__ . '/partials/tarjetas_servidores.php'; ?>
+</main>
+<?php require __DIR__ . '/footer.php'; ?>

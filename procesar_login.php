@@ -132,6 +132,25 @@ try {
     unset($_SESSION['flash_error'], $_SESSION['old_identificador']);
     establish_user_session($user);
 
+    try {
+        $infoPtr = obtener_cliente_ptr();
+        $stmtBitacora = $pdo->prepare(
+            'INSERT INTO bitacora_eventos (fecha, evento, tipo, detalle)
+             VALUES (NOW(), :evento, :tipo, :detalle)'
+        );
+        $stmtBitacora->execute([
+            'evento'  => 'Sistema',
+            'tipo'    => 'info',
+            'detalle' => sprintf(
+                'Sesión iniciada por %s desde host PTR: %s (%s).',
+                (string) $user['nombre_completo'],
+                $infoPtr['host'],
+                $infoPtr['ip']
+            ),
+        ]);
+    } catch (Throwable $ignored) {
+    }
+
     header('Location: dashboard.php');
     exit;
 } catch (PDOException $exception) {
