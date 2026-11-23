@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/HistorialModel.php';
-
 function servicios_demo_por_defecto(): array
 {
     return [
@@ -127,10 +125,6 @@ function obtener_estado_servidores(?PDO $pdo = null): array
             'tiempo_ms' => $resultado['tiempo_ms'],
             'detalle' => $resultado['detalle'],
         ];
-    }
-
-    if (!$origen['modo_demo'] && $pdo instanceof PDO) {
-        registrar_lote_monitoreos($pdo, $items);
     }
 
     return [
