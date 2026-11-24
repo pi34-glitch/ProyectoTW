@@ -443,7 +443,7 @@ include __DIR__ . '/Views/partials/navbar.php';
                     <a href="http://mail.clinicasanjose.lan:37410" target="_blank" rel="noopener" class="ca-btn-sm">
                         Visor Mailpit (:37410) &nearr;
                     </a>
-                    <a href="Controllers/Controllers_servidores.php#bitacora" class="ca-card-link">
+                    <a href="Controllers/Controllers_historial.php" class="ca-card-link">
                         <span>Ver historial</span>
                         <span aria-hidden="true">&rarr;</span>
                     </a>

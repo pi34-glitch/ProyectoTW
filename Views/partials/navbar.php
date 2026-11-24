@@ -109,6 +109,17 @@ $sessActividad = isset($_SESSION['ultima_actividad']) && is_int($_SESSION['ultim
                         <span>DNS</span>
                     </a>
                 </li>
+                <li>
+                    <a href="<?= htmlspecialchars($baseUrl . 'Controllers/Controllers_historial.php', ENT_QUOTES, 'UTF-8') ?>"
+                       class="ca-nav-link<?= $paginaActiva === 'historial' ? ' is-active' : '' ?>"
+                       <?= $paginaActiva === 'historial' ? 'aria-current="page"' : '' ?>>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"/>
+                            <polyline points="12 7 12 12 15 15"/>
+                        </svg>
+                        <span>Historial</span>
+                    </a>
+                </li>
             </ul>
 
             <div class="ca-nav-divider" role="separator"></div>
